@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-h0t7@efcv#yflgi90%l#e4eye+%qilp+(@9=me8d1y%5y$(k&1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CSRF_TRUSTED_ORIGINS = ['*']
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -122,8 +123,6 @@ USE_TZ = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATIC_URL = 'static/'
-
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
