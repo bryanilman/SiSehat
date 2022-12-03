@@ -33,8 +33,9 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_DOMAIN = os.environ.get("DOMAIN_NAME") 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*." + str(os.environ.get("DOMAIN_NAME")),
+    "https://web-production-0ada.up.railway.app",
 ]
+print(str(os.environ.get("DOMAIN_NAME")))
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_DOMAIN = os.environ.get("DOMAIN_NAME") 
 SESSION_COOKIE_HTTPONLY = True
