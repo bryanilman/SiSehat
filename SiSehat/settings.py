@@ -27,17 +27,16 @@ SECRET_KEY = 'django-insecure-h0t7@efcv#yflgi90%l#e4eye+%qilp+(@9=me8d1y%5y$(k&1
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CORS_ALLOWED_ORIGIN_REGEXES = [r"https://\w+\.".format(os.environ.get("DOMAIN_NAME"))]
+CORS_ALLOWED_ORIGIN_REGEXES = [r"https://\w+\.".format("web-production-0ada.up.railway.app")]
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_DOMAIN = os.environ.get("DOMAIN_NAME") 
+CSRF_COOKIE_DOMAIN = "web-production-0ada.up.railway.app"
 CSRF_TRUSTED_ORIGINS = [
     "https://web-production-0ada.up.railway.app",
 ]
-print(str(os.environ.get("DOMAIN_NAME")))
 SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_DOMAIN = os.environ.get("DOMAIN_NAME") 
+SESSION_COOKIE_DOMAIN = "web-production-0ada.up.railway.app"
 SESSION_COOKIE_HTTPONLY = True
 
 # Application definition
