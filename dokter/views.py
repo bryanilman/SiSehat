@@ -14,9 +14,10 @@ from django.contrib.auth.decorators import login_required
 
 from django.core import serializers
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -103,3 +104,29 @@ def show_pasien_json(request):
     data = Pasien.objects.all()
     return HttpResponse(serializers.serialize("json", data),
                         content_type="application/json")
+
+# @login_required(login_url='/registrasi/halaman-masuk/')
+def toggle_penyakit_mobile(request, id):
+        penyakit = Penyakit.objects.get(id=id)
+        if penyakit.sembuh:
+            penyakit.sembuh = False
+        else:
+            penyakit.sembuh = True
+        penyakit.save()
+        return show_penyakit(request)
+
+# @login_required(login_url='/registrasi/halaman-masuk/')
+@csrf_exempt
+def add_penyakit_mobile(request, pasien):
+    form = PenyakitForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            penyakit = form.save(commit=False)
+            penyakit.pasien = Pasien.objects.get(nomor_induk_kependudukan=pasien)
+            penyakit.dokter = Dokter.objects.get(nomor_induk_kependudukan=1000000000000000)
+            penyakit.save()
+            print('a')
+            return show_penyakit(request)
+
+        return HttpResponseNotFound()        
+    return HttpResponseNotFound()
