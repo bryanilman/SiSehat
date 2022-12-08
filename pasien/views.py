@@ -2,6 +2,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import HttpResponse, render
 from django.urls import reverse
@@ -202,3 +203,7 @@ def log_out(request):
 
     logout(request)
     return response
+
+def riwayat_terbuka(request):
+    penyakit = list(Penyakit.objects.values())
+    return JsonResponse({'penyakit': penyakit})
