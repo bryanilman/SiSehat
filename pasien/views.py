@@ -206,4 +206,6 @@ def log_out(request):
 
 def riwayat_terbuka(request):
     penyakit = list(Penyakit.objects.values())
-    return JsonResponse({'penyakit': penyakit})
+    keluhan = list(Keluhan.objects.values())
+
+    return JsonResponse({'penyakit': penyakit, 'keluhan': keluhan})
