@@ -120,7 +120,7 @@ def toggle_penyakit_mobile(request, id):
         else:
             penyakit.sembuh = True
         penyakit.save()
-        # return show_penyakit(request)
+        return show_penyakit(request)
 
 # @login_required(login_url='/registrasi/halaman-masuk/')
 @csrf_exempt
