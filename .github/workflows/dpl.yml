@@ -15,8 +15,10 @@ jobs:
       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}  
     steps:
     - uses: actions/checkout@v2
+    - name: become root
+      run: sudo -s
     - name: initial installation
-      run: sudo -s && apt-get update && apt-get install -y curl
+      run: apt-get update && apt-get install -y curl
     - name: more installation
       run: curl -fsSL https://railway.app/install.sh | sh
     - name: Deploy to Railway
