@@ -1,13 +1,36 @@
-stages:
-  - deploy
+name: deploy
 
-deploy-railway:
-  stage: deploy
-  image: ubuntu
-  only:
-    - pushes
-    - main
-  script:
-    - apt-get update && apt-get install -y curl
-    - curl -fsSL https://railway.app/install.sh | sh
-    - railway up --service=$RAILWAY_SERVICE_NAME -d
+on:
+  push:
+    branches-ignore:
+      - template
+  pull_request:
+    branches-ignore:
+      - template
+jobs:
+  Deployment:
+    runs-on: ubuntu-latest
+    env:
+      RAILWAY_SERVICE_NAME: ${{ RAILWAY_SERVICE_NAME }}
+      RAILWAY_TOKEN: ${{ RAILWAY_TOKEN }}  
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Install dpl
+      run: gem install dpl
+    - name: initial installation
+      run: apt-get update && apt-get install -y curl
+    - name: more installation
+      run: curl -fsSL https://railway.app/install.sh | sh
+    - name: Deploy to Railway
+      run: railway up --service=$RAILWAY_SERVICE_NAME -d
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment
+      with:
+        initial_status: success
+        token: ${{ github.token }}
+        target_url: https://web-production-0ada.up.railway.app/
+        environment: production
