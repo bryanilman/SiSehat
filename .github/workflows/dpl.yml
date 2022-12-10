@@ -15,8 +15,6 @@ jobs:
       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}  
     steps:
     - uses: actions/checkout@v2
-    - name: install dpl
-      run: gem install dpl
     - name: initial installation
       run: apt-get update && apt-get install -y curl
     - name: more installation
