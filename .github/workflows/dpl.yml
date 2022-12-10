@@ -20,7 +20,7 @@ jobs:
     - name: more installation
       run: curl -fsSL https://railway.app/install.sh | sh
     - name: Deploy to Railway
-      run: railway up --service=$RAILWAY_SERVICE_NAME -d
+      run: railway up -d
     - uses: chrnorm/deployment-action@releases/v1
       name: Create GitHub deployment
       with:
