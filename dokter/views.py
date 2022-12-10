@@ -14,9 +14,10 @@ from django.contrib.auth.decorators import login_required
 
 from django.core import serializers
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -89,17 +90,54 @@ def get_keluhan_pasien(request, pasien):
 def redirect_home(request):
     return HttpResponseRedirect(reverse('halaman_utama:landing_page'))
 
+# @login_required(login_url='/registrasi/halaman-masuk/')
 def show_penyakit_json(request):
+    # print(f'active?: {request.user.is_active}')
     data = Penyakit.objects.all()
     return HttpResponse(serializers.serialize("json", data),
                         content_type="application/json")
 
+# @login_required(login_url='/registrasi/halaman-masuk/')
 def show_keluhan_json(request):
+    # print(f'active?: {request.user.is_active}')
     data = Keluhan.objects.all()
     return HttpResponse(serializers.serialize("json", data),
                         content_type="application/json")
 
+# @login_required(login_url='/registrasi/halaman-masuk/')
 def show_pasien_json(request):
+    # print(f'active?: {request.user.is_active}')
     data = Pasien.objects.all()
     return HttpResponse(serializers.serialize("json", data),
                         content_type="application/json")
+
+# @login_required(login_url='/registrasi/halaman-masuk/')
+def toggle_penyakit_mobile(request, id):
+        # print(f'active?: {request.user.is_active}')
+        penyakit = Penyakit.objects.get(id=id)
+        if penyakit.sembuh:
+            penyakit.sembuh = False
+        else:
+            penyakit.sembuh = True
+        penyakit.save()
+        # return show_penyakit(request)
+
+# @login_required(login_url='/registrasi/halaman-masuk/')
+@csrf_exempt
+def add_penyakit_mobile(request, pasien):
+    # print(f'active?: {request.user.is_active}')
+    form = PenyakitForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            penyakit = form.save(commit=False)
+            penyakit.pasien = Pasien.objects.get(nomor_induk_kependudukan=pasien)
+            user = User.objects.get(username=request.POST["username"])
+            dokter = Dokter.objects.get(user=user)
+            penyakit.dokter = dokter
+            penyakit.save()
+            print('a')
+            return show_penyakit(request)
+        print('b')
+        return HttpResponseNotFound()   
+    print('c')     
+    return HttpResponseNotFound()
