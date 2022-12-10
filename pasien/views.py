@@ -35,6 +35,7 @@ def keluhan(request):
 
 @login_required(login_url='/registrasi/halaman-masuk/')
 def mengeluh(request):
+    print("HELLO WORLD!")
     try:
         pasien = Pasien.objects.get(user=request.user)
     except Pasien.DoesNotExist:
