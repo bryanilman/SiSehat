@@ -28,23 +28,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 
 #### COMMENT LINES BELOW FOR LOCALHOST #####
-# CORS_ALLOWED_ORIGIN_REGEXES = [r"https://\w+\.".format("web-production-0ada.up.railway.app")]
-# CORS_ALLOW_CREDENTIALS = True
-# CSRF_COOKIE_HTTPONLY = False
-# CSRF_COOKIE_SECURE = True
-# CSRF_COOKIE_DOMAIN = "web-production-0ada.up.railway.app"
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://web-production-0ada.up.railway.app",
-# ]
-# SESSION_COOKIE_SECURE = True
-# SESSION_COOKIE_DOMAIN = "web-production-0ada.up.railway.app"
-# SESSION_COOKIE_HTTPONLY = True
+CORS_ALLOWED_ORIGIN_REGEXES = [r"https://\w+\.".format("web-production-0ada.up.railway.app")]
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_DOMAIN = "web-production-0ada.up.railway.app"
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-0ada.up.railway.app",
+]
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_DOMAIN = "web-production-0ada.up.railway.app"
+SESSION_COOKIE_HTTPONLY = True
 ####
 
 # Application definition
