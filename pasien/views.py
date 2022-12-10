@@ -2,6 +2,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import HttpResponse, render
 from django.urls import reverse
@@ -39,7 +40,7 @@ def mengeluh(request):
     except Pasien.DoesNotExist:
         pasien = None
 
-    if request.method == "POST" and RincianKeluhan(request.POST).is_valid():
+    if request.method == "POST":
         nama_dokter = request.POST.get("dokter")
 
         try:
@@ -57,23 +58,21 @@ def mengeluh(request):
         tema = request.POST.get("tema")
         deskripsi = request.POST.get("deskripsi")
 
-        if user != None and dokter != None:
-            # membuat keluhan
-            keluhan = Keluhan.objects.create(
-                pasien=pasien,
-                dokter=dokter[0],
+        # membuat keluhan
+        keluhan = Keluhan.objects.create(
+            pasien=pasien,
+            dokter=dokter[0],
 
-                tanggal=tanggal,
-                tema=tema,
-                deskripsi=deskripsi
-            )
+            tanggal=tanggal,
+            tema=tema,
+            deskripsi=deskripsi
+        )
 
-            # menyimpan keluhan
-            keluhan.save()
+        # menyimpan keluhan
+        keluhan.save()
 
-            return HttpResponseRedirect(reverse("pasien:keluhan"))
-        else:
-            return HttpResponseRedirect(reverse("pasien:keluhan"))
+
+        return HttpResponseRedirect(reverse("pasien:keluhan"))
     else:
         context = {"pasien":pasien, "rincian_keluhan":RincianKeluhan()}
         return render(request, "keluhan.html", context)
@@ -202,3 +201,14 @@ def log_out(request):
 
     logout(request)
     return response
+
+def riwayat_terbuka(request):
+    penyakit = list(Penyakit.objects.values())
+    keluhan = list(Keluhan.objects.values())
+    pasien = list(Pasien.objects.values())
+    dokter = list(Dokter.objects.values())
+
+    return JsonResponse({'penyakit': penyakit, 'keluhan': keluhan, 'pasien': pasien, 'dokter': dokter})
+
+def show_response(request):
+    return JsonResponse(request.POST)
