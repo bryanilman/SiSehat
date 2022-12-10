@@ -11,8 +11,8 @@ jobs:
   Deployment:
     runs-on: ubuntu-latest
     env:
-      RAILWAY_SERVICE_NAME: ${{ RAILWAY_SERVICE_NAME }}
-      RAILWAY_TOKEN: ${{ RAILWAY_TOKEN }}  
+      RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME }}
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}  
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby 2.7
